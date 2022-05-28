@@ -1,150 +1,33 @@
 import React from 'react';
+
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet,Image, Text, View,TextInput,} from 'react-native';
-import {Login} from './routes/Login'
+import { StyleSheet,Image, Text, View,TextInput,Dimensions} from 'react-native';
+import Login from './routes/Login'
+import Drawer from './drawer';
 import Home from './icons/home.svg'
 import Svg from 'react-native-svg';
 import { SvgUri } from 'react-native-svg';
 import { Button } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 
-export default function App() {
-  const [textInputValue, setTextInputValue] = React.useState('');
-  const [textInputValue2,setTextInputValue2] = React.useState('');
+
+
+
+export default function App({navigation}) {
+  
+  
+  
+
   return (
     
-    <>
     <View style={styles.container}>
-    <View>
-      <Image style={styles.logo} source={require('./icons/BrokerLogo.png')} />
-    </View>
-    <View style={styles.sectionStyling}>
-      
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setTextInputValue(text)}
-          value={textInputValue}
-          placeholder="email@email.com" />
-          <Image style={styles.mailIC} source={require('./icons/mail.png')} />
-      </View>
-      <View>
-        <TextInput
-        secureTextEntry={true}
-          style={styles.input}
-          value={textInputValue2}
-          onChangeText={text2 => setTextInputValue2(text2)}
-          
-           />
-      </View>
-      <View>
-        <Text style={styles.mdpForgot}>Mot de passe oublié ?</Text>
-        
-      </View>
-      <View>
-        <TouchableOpacity  style={styles.boutton}  onPress={()=>{}}>
-        <Text style={styles.logText}>Login</Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity  style={styles.boutton}  onPress={()=>{}}>
-        <Text style={styles.logText}>Login with Google</Text>
-        </TouchableOpacity>
-      </View>
-      
-      </View></>
-
-
-    
-    )}
-    const styles = StyleSheet.create({
-      container: {
-        flex:1,
-        paddingVertical: 20,
-        paddingBottom: 0,
-        backgroundColor: '#1a1a1a',
-        flexDirection: "column",
-        justifyContent:'center',
-        
-      },
-      sectionStyling: {
-       
-        justifyContent:'center',
-
-      },
-      mailIC: {
-        marginLeft:50,
-        marginTop:40,
-        position:'absolute',
-
-      },
-      logo: {
-        alignSelf: 'center',
-        justifyContent:'center',
-        marginBottom:48,
-
-      },
-      input: 
-        {
-          height: 50,
-          width: 330,
-          marginLeft:35,
-          marginBottom:24,
-          borderColor: 'gray',
-          borderWidth: 1,
-          borderRadius:10,
-          //placeholderTextColor: 'gray',
-          alignContent: 'center',
-          //textAlign:'center',
-          paddingLeft:60,
-          backgroundColor: '#D9D9D9',
-          justifyContent: 'center',
-        },
-        mdpForgot: {
-          marginLeft:50,
-          marginBottom:24,
-          color:'white',
-        },
-        boutton: {
-          
-          width:250,
-          height:50,
-          marginBottom: 24,
-          alignSelf:'center',
-          textAlign:'center',
-          alignContent:'center',
-          backgroundColor:'#00ECED',
-          borderRadius:10,
-
-          justifyContent:'center',
-        },
-        logText:
-        {
-          alignSelf:'center',
-
-        }
-      
-
-
-    })
-
-
-
-
-
-
-
-
-
-    
-    
-    /*<View style={styles.container}>
       <View style={styles.header}>
        <View style={styles.navbar}>
          <View style={styles.home}>
-           <Text style={styles.navName}>Home</Text>
+           <Text style={styles.navName} >Home</Text>
          </View>
          <View style={styles.balance}>
-         <Text  style={styles.navName}>Balance</Text>
+         <Text  style={styles.navNameSel}>Balance</Text>
          </View>
          <View style={styles.market}>
          <Text  style={styles.navName}>Market</Text>
@@ -154,8 +37,30 @@ export default function App() {
 
       </View>
       <View style={styles.body}>
+        <View style={styles.stock}>
+          <View style={styles.current}>
+            <Text>Current Balance</Text>
+            <Text>put price</Text>
+
+          </View>
+          <View style={styles.profit}>
+          <Text>Today’s profit</Text>
+            <Text>put price</Text>
+          </View>
+          
+
+
+        </View>
+        <View style={styles.logo}>
+        <Image style={styles.logo} source={require('./icons/logoBlack.png')} />
+        </View>
 
       </View>
+      <View>
+      <Text style={styles.title}>Assets</Text>
+      </View>
+      
+      <View style={styles.body2}></View>
       <View style={styles.footer}>
         <View style={styles.iconsNav}>
         <View style={styles.homeic}>
@@ -179,7 +84,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    paddingVertical: 20,
+    paddingVertical: 30,
     paddingBottom: 0,
     backgroundColor: '#1a1a1a',
     flexDirection: "column",
@@ -188,13 +93,17 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 0.5,
-    padding:20,
+    height:114,
+    paddingTop:20,
+    marginBottom:0,
     backgroundColor: '#1a1a1a',
     //flexDirection: "row",
 
   },
   navbar: {
     flex:1,
+    marginTop:24,
+    height: 48,
     flexDirection: "row",
 
 },
@@ -210,8 +119,9 @@ const styles = StyleSheet.create({
 balance: {
   flex:1,
   padding:20,
-  //backgroundColor: 'green',
+  
   borderRadius: 10,
+  backgroundColor: '#00ECED',
     justifyContent: 'center',
 
 },
@@ -225,7 +135,37 @@ market: {
 },
 
 body: {
-  flex: 4,
+  flex: 1,
+  margin:30,
+  borderRadius:30,
+  height:340,
+  //padding: 50,
+  backgroundColor: '#00ECED',
+  //justifyContent:'center',
+  flexDirection: "row",
+},
+stock: {
+  flexDirection: 'column',
+},
+current: {
+  
+  padding:30,
+
+},
+profit: {
+  
+  paddingLeft:30,
+
+
+},
+logo: {
+  marginTop:55,
+  marginLeft:25,
+
+},
+body2: {
+  flex: 1,
+  
   padding: 100,
   backgroundColor: '#1a1a1a',
 },
@@ -262,6 +202,13 @@ profile: {
 navName: {
   textAlign: 'center',
   color: 'white',
+},
+navNameSel: {
+  textAlign: 'center',
+  color: 'black',
+},
+title: {
+  color:'white',
+  marginLeft:20,
 }
 });
-*/
